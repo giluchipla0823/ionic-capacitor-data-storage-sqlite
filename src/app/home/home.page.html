@@ -1,20 +1,45 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+    </ion-buttons>
+    <ion-title>Home Page</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="clearData()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+      <ion-button (click)="clearCache()">
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-button expand="full" (click)="refreshUsers(false)"
+    >Load users</ion-button
+  >
+  <ion-button expand="full" (click)="refreshUsers(true)" color="secondary"
+    >Force reload users</ion-button
+  >
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ng-container *ngIf="users.length > 0">
+    <p *ngIf="cacheCreatedAt">
+      <strong>Cache date</strong>: {{ cacheCreatedAt | date: 'YYYY-MM-dd
+      HH:mm:ss' }}
+    </p>
+
+    <ion-list>
+      <ion-item *ngFor="let user of users">
+        <ion-avatar slot="start">
+          <img [src]="user.picture.medium" />
+        </ion-avatar>
+        <ion-label class="ion-text-capitalize">
+          {{ user.name.first }} {{ user.name.last }}
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-container>
 </ion-content>
